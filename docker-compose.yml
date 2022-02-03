@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  gateway:
+    build: traefik
+    ports:
+      - "9000:80"
+      - "9090:8080"
+
+  opa:
+    build: opa
+    ports:
+      - "8181:8181"
+
+  middleware-auth-opa:
+    build: auth-opa-middleware
+
+  web:
+    build: apps/web
+  api:
+    build: apps/api-1

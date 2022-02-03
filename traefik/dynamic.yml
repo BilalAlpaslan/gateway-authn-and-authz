@@ -1,0 +1,27 @@
+http:
+  routers:
+    api:
+      rule: "PathPrefix(`/api`)"
+      service: api
+      middlewares:
+      - "middleware-auth-opa"
+
+    web:
+      rule: "PathPrefix(`/`)"
+      service: web
+
+  middlewares:
+    middleware-auth-opa:
+      forwardAuth:
+        address: "http://middleware-auth-opa"
+
+  services:
+    api:
+      loadBalancer:
+        servers:
+        - url: http://api
+
+    web:
+      loadBalancer:
+        servers:
+        - url: http://web
